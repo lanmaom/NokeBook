@@ -31,7 +31,7 @@
   git stash pop
 ```
 
-![desc.png](./images/desc.png)
+![desc.png](../images/git/desc.png)
 
 ## 提交远程仓库的操作
 
