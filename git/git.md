@@ -60,6 +60,8 @@
 ### 如果没有配置秘钥
 
 ```js
+  git config --list //查看配置信息
+
   //查看全局用户名 , 查看全局邮箱
   git config --global user.name
   git config --global user.email
@@ -67,6 +69,18 @@
   //设置全局用户名和邮箱
   git config --global user.name '用户名'
   git config --global user.email '邮箱'
+
+  git config --global core.ignorecase false  //全局设置不要忽略大小写,我用的没有效果
+  git config core.ignorecase false  //设置不要忽略大小写, 亲测有效 ^-^
+
+  /*
+    在没有设置忽略大小的情况下,可以使用
+      git mv <old_name> <new_name>
+    来让git捕获到文件名的修改
+      git restore --staged <file>
+    我的理解是确认?
+    然后就可以 添加暂存 提交本地仓库了
+  */
 
   ssh-keygen -t rsa -C '邮箱'
   /*
