@@ -105,6 +105,8 @@
 
   git pull <remote> HEAD //拉下来指定分支
   git push <remote> HEAD //推上去指定分支
+
+  git push <remote> --delete HEAD 删除当前远程分支
 ```
 
 #### fetch 与 pull 的区别

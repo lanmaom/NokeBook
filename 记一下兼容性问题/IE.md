@@ -49,3 +49,10 @@ nameSpace.a() //报错: nameSpace未定义
 
 //这样写就可以访问了
 ```
+
+### IE 接口缓存的问题
+
+- IE 默认会缓存接口,如果你请求的参数没有变化,IE 默认会拿缓存中的数据
+- 解决方法:
+  - 在请求的时候加一个随机数: nowDate: new Date().getTime()
+  - 在ajax请求中加一个cache:false这个参数
