@@ -1,18 +1,19 @@
 ## 手写类
 
 #### 手写 call
+
 ```js
-Function.prototype.call = function() {
-  if(typeof this !== 'function') {
-    throw 'caller must be a function'
+Function.prototype.call = function () {
+  if (typeof this !== 'function') {
+    throw 'caller must be a function';
   }
-  let othis = arguments[0] || window
-  othis._fn = this
-  let arg = [...arguments].slice(1)
-  let res = othis._fn(...arg)
-  Reflect.deletePropert(othis, '_fn')
-  return res
-}
+  let othis = arguments[0] || window;
+  othis._fn = this;
+  let arg = [...arguments].slice(1);
+  let res = othis._fn(...arg);
+  Reflect.deletePropert(othis, '_fn');
+  return res;
+};
 ```
 
 #### 手写 apply
@@ -23,17 +24,103 @@ Function.prototype.call = function() {
 
 #### 函数柯里化
 
+```js
+function currying(fn, arr = []) {
+  let len = fn.length;
+  return (...args) => {
+    let concatArgs = [...arr, ...args];
+    if (concatArgs.length < len) {
+      return currying(fn, concatArgs);
+    } else {
+      return fn.call(this, ...concatArgs);
+    }
+  };
+}
+let sum = (a, b, c, d) => {
+  // console.log(a, b, c, d);
+  console.log(a + b + c + d);
+};
+let newSum = currying(sum);
+newSum(1)(2)(3)(4);
+```
+
 #### 函数反柯里化
+
+```js
+Function.prototype.uncurring = function () {
+  var self = this;
+  return function () {
+    var obj = Array.prototype.shift.call(arguments);
+    return self.apply(obj, arguments);
+  };
+};
+```
 
 #### 冒泡排序(及优化)
 
 ```js
-
+// 交换两个变量的值
+// arr[m] = [arr[m+1],arr[m+1] = arr[m]][0]
+// [arr[m],arr[m+1]] = [arr[m+1],arr[m]]
+var arr = [2, 8, 3, 4, 5, 6, 1, 7, 9];
+for (var i = 0; i < arr.length - 1; i++) {
+  for (var m = 0; m < arr.length - i - 1; m++) {
+    var temp = arr[m + 1];
+    arr[m + 1] = arr[m];
+    arr[m] = temp;
+    [arr[m], arr[m + 1]] = [arr[m + 1], arr[m]];
+  }
+}
+// 优化
+var flag = false;
+for (var i = 0; i < arr.length - 1; i++) {
+  for (var m = 0; m < arr.length - i - 1; m++) {
+    if (arr[m] > arr[m + 1]) {
+      var temp = arr[m + 1];
+      arr[m + 1] = arr[m];
+      arr[m] = temp;
+    } else {
+      flag = true;
+    }
+  }
+  if (flag) {
+    return;
+  }
+}
 ```
 
-#### 函数节流
+#### 函数防抖(将多次操作合并为一次操作进行)
 
-#### 函数防抖
+```js
+function debounce(fn, delay = 500) {
+  const timeId = null;
+  return function () {
+    if (timeId) clearTimeout(timeId);
+
+    timeId = setTimeout(() => {
+      timeId = null;
+      fn.apply(this, arguments);
+    }, delay);
+  };
+}
+```
+
+#### 函数节流(不管事件触发有多频繁，都会保证在规定时间内只执行一次)
+
+```js
+function throttle(fn, wait) {
+  var flag = true;
+  return function () {
+    if (!flag) return;
+
+    flag = false;
+    setTimeout(() => {
+      fn.apply(this, arguments);
+      flag = true;
+    }, wait);
+  };
+}
+```
 
 ## 理解型
 
@@ -207,9 +294,10 @@ function deepClone(obj, map = new WeakMap()) {
   - 匿名函数在栈追踪中不会显示出有意义的函数名,使得调试很困难
   - 如果没有函数名,单函数需要引用自身时,只能使用已经过期的 arguments.callee 引用
   - 匿名函数省略了对于代码可读性/可理解性很重要的函数名.
-- 闭包函数 
-  - 你不知道的javascript中的定义: 
+- 闭包函数
+  - 你不知道的 javascript 中的定义:
     - 当函数可以记住并访问所在的词法作用域时,就产生了闭包,即使函数是在当前词法作用域之外执行
+
 #### 立即执行函数(IIFE)
 
 - (function(){})()
