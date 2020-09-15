@@ -200,11 +200,58 @@ methodsArr.forEach((met) => {
 
 - 成员的值都是唯一的,没有重复的值,类似于数组
 - 可以遍历
+- Set.prototype.constructor Set 构造函数
+- Set.prototype.size 返回Set实例的成员总数
+
+- add(value) 添加某个值,返回Set结构本身
+- delete(value) 删除某个值,返回一个布尔值,表示是否成功
+- has(value) 返回一个布尔值,表示参数是否为Set成员
+- clear() 清除所有成员,没有返回值
+- 特殊情况
+  - +0 与-0 在存储判断唯一性是恒等的,所以不重复
+  - undefined 与 undefined 是恒等的,所以不重复
+  - NaN 与 NaN 是不恒等的,但是在 Set 中只能存一个
+
+```js
+let mySet = new Set();
+mySet.add(1);
+mySet.add(5);
+mySet.add('some Text');
+console.log(mySet); // 1,5,'some Text'
+
+var mySet = new Set([1, 2, 3, 4, 5, 5]); // [1,2,3,4,5]
+
+// 并集
+var a = new Set([1, 2, 3]);
+var b = new Set([4, 3, 2]);
+var union = new Set([...a, ...b]); // {1,2,3,4}
+
+// 交集
+var a = new Set([1, 2, 3]);
+var b = new Set([4, 3, 2]);
+var intersect = new Set([...a].filter(x => b.has(x))) // {2,3}
+
+// 差集
+var a = new Set([1, 2, 3]);
+var b = new Set([4, 3, 2]);
+var difference = new Set([...a].filter(x => !b.has(x))) // {1}
+```
 
 #### Map
 
-- 键值对的集合,键值可以是任意类型
+- 键值对的集合,`键值可以是任意类型`
 - 可以遍历
+  map 的定义
+- map.set()
+- map.get()
+- map.has()
+- map.delete()
+```js
+let map = new Map();
+let map = new Map([key, value], [key, valu]); //默认带参数的定义
+```
+
+- 在开发过程中, 涉及到数据结构,能使用 Map 不使用 Array, 尤其是复杂的数据结构,如果对数组的储存考虑唯一性,使用 Set,放弃 Array
 
 #### 箭头函数与普通函数的区别
 
